@@ -1,0 +1,21 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <img src="{% static 'Home/images/'|add:gun.image %}" alt="Card Image">
+        </div>
+        <div class="details">
+            <h2>{{gun.name}}</h2>
+            <p>Description: {{gun.description}}</p>
+            <p>Price: {{gun.price}}$</p>
+            <p>in_stock: {{gun.in_stock}}</p>
+            <div class="buttons"> 
+                <a href="{% url 'home'%}" class="btn bg-primary text-white">Back</a>
+                <a href="#" class="btn bg-primary text-white">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
