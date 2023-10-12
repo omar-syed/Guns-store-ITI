@@ -1,6 +1,6 @@
 
 from django.urls import path
-from . views import home,contact,about,detail,delete,search,add_gun,edit_gun
+from . views import home,contact,about,detail,delete,search,add_gun,edit_gun,category_list,category_detail
 
 urlpatterns = [
 
@@ -12,4 +12,6 @@ urlpatterns = [
     path('search', search, name="search"),
     path('add_gun/', add_gun, name='add_gun'),
     path('edit_gun/<int:id>/', edit_gun, name='edit_gun'),
+    path('category_list',category_list,name='category_list'),
+    path('category/<str:category>/', category_detail, name='category_detail'),
 ]

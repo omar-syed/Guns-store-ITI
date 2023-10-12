@@ -1,7 +1,10 @@
-from django.shortcuts import render,redirect
+import os
+from django.conf import settings
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
-from . models import Gun
-from . forms import GunForm 
+from . models import Gun,Category
+from .forms import GunForm
+# from . forms import GunForm 
 
 # Create your views here.
 def home(request):
@@ -13,16 +16,8 @@ def home(request):
 
 def contact(request):
     return render(request,'Home\contact.html')
-
-
 def about (request):
     return render(request,"Home\\about.html")
-    
-    
-
-# def listt(request):
-#     return HttpResponse(guns)
-
 
 def detail(request, id):
     gun = Gun.objects.filter(id = id)
@@ -35,13 +30,31 @@ def detail(request, id):
     return HttpResponse("Sorry target gun profile not found ")
     
 
-def delete(request,id):
-    gun = Gun.objects.filter(id =id)
+# def delete(request,id):
+#     gun = Gun.objects.filter(id =id)
+#     if gun:
+#         gun[0].delete()
+#         return redirect('home')
+#     else:
+#         return HttpResponse("Sorry, gun not found")
+
+
+
+
+def delete(request, id):
+    gun = Gun.objects.filter(id=id)
     if gun:
-        gun[0].delete()
+        gun_instance = gun[0]
+        image_path = gun_instance.image.path
+        
+        # Delete the image file
+        if os.path.exists(image_path):
+            os.remove(image_path)
+
+        gun_instance.delete()
         return redirect('home')
     else:
-        return HttpResponse("Sorry, gun not found")
+        return HttpResponse("Sorry, gun not found")    
     
     
 
@@ -56,26 +69,71 @@ def search(request):
 
 def add_gun(request):
     if request.method == 'POST':
-        form = GunForm(request.POST,request.FILES)
+        form = GunForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            # Save the form data to create a new Gun object
+            gun = Gun(
+                name=form.cleaned_data['name'],
+                image=form.cleaned_data['image'],
+                price=form.cleaned_data['price'],
+                description=form.cleaned_data['description'],
+                in_stock=form.cleaned_data['in_stock'],
+                category=form.cleaned_data['category']
+            )
+            gun.save()
             return redirect('home')
     else:
         form = GunForm()
-    return render(request, 'Home/add_gun.html', {'form': form})    
 
-def edit_gun(request,id):
-    gun = Gun.objects.get(id=id) 
-    form = GunForm(instance=gun)
-    
+    context = {
+        'form': form
+    }
+    return render(request, 'Home/add_gun.html', context)
+
+
 def edit_gun(request, id):
-    gun = Gun.objects.get(id=id)
+    gun = get_object_or_404(Gun, id=id)
+
     if request.method == 'POST':
-        form = GunForm(request.POST, request.FILES, instance=gun)
+        form = GunForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            gun.name = form.cleaned_data['name']
+            gun.price = form.cleaned_data['price']
+            gun.description = form.cleaned_data['description']
+            gun.in_stock = form.cleaned_data['in_stock']
+            gun.category = form.cleaned_data['category']
+
+            # Check if a new image is provided
+            if 'image' in request.FILES:
+                gun.image = form.cleaned_data['image']
+            
+
+            gun.save()
             return redirect('home')
     else:
-        form = GunForm(instance=gun)
-    return render(request, 'Home/edit_gun.html', {'form': form, 'gun': gun})
-        
+        form = GunForm(initial={
+            'name': gun.name,
+            'price': gun.price,
+            'description': gun.description,
+            'in_stock': gun.in_stock,
+            'category': gun.category,
+        })
+
+    context = {
+        'form': form
+    }
+    return render(request, 'Home/edit_gun.html', context)
+
+def category_list(request):
+    categories = Category.objects.all()
+    context = {
+        'categories': categories}
+    return render(request,'Home\category.html',context )
+
+def category_detail(request, category):
+    guns = Gun.objects.filter(category__name=category)
+    context = {
+        'guns': guns,
+        'category': category
+    }
+    return render(request, 'Home/category_detail.html', context)

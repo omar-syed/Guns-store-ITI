@@ -3,10 +3,12 @@
 
 {% block content %}
 <div class="card-container">
+    
     {% for gun in guns %}
     <div class="card">
-        <img src="{% static 'Home/images/'|add:gun.image %}" alt="{{ gun.name }} Image">
+        <img src="{{gun.image.url}}" alt="{{ gun.name }} Image">
         <h2>{{ gun.name }}</h2>
+        <h5>Category: {{ gun.category }}</h5>
         <p>omar elsayed abdelnasser-computer science 2021-ITI-Python Track MVT</p>
         <a href="{% url 'detail' id=gun.id %}" class="btn">View Details</a>
         <a href="{% url 'edit_gun' id=gun.id %}" class="btn bg-warning">Edit</a>

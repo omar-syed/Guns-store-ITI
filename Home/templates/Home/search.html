@@ -9,7 +9,7 @@
                     {% for gun in guns %}
                         <div class="col-md-4">
                             <div class="card">
-                                <img src="{% static 'Home/images/'|add:gun.image %}" alt="{{ gun.name }} Image">
+                                <img src="{{gun.image.url}}" alt="{{ gun.name }} Image">
                                 <h2>{{ gun.name }}</h2>
                                 <p>This is a sample card. You can customize it as per your needs.</p>
                                 <a href="{% url 'detail' id=gun.id %}" class="btn">View Details</a>

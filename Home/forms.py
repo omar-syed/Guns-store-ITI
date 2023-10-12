@@ -1,7 +1,11 @@
 from django import forms
-from .models import Gun
+from .models import Gun,Category
 
-class GunForm(forms.ModelForm):
-    class Meta:
-        model = Gun
-        fields = ['id','name', 'image','price','description','in_stock']  # Add other fields as needed
+
+class GunForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    image = forms.ImageField(required=False)
+    price = forms.IntegerField()
+    description = forms.CharField(widget=forms.Textarea)
+    in_stock = forms.BooleanField()
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
