@@ -1,6 +1,20 @@
 {% extends 'Home/base.html' %}
 {% load static %}
 
+{% block search %}
+    <div class="navbar-right ml-auto d-flex justify-content-center">
+        <form action="{% url 'search' %}" method="GET">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" name="query" class="form-control form-control-lg" placeholder="Search...">
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endblock %}
 {% block content %}
 <div class="card-container">
     

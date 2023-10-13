@@ -71,17 +71,20 @@ def add_gun(request):
     if request.method == 'POST':
         form = GunForm(request.POST, request.FILES)
         if form.is_valid():
+            if Gun.objects.filter(name=form.cleaned_data['name']).exists():
+                form.add_error('name', 'A gun with this name already exists.')
+            else:
             # Save the form data to create a new Gun object
-            gun = Gun(
-                name=form.cleaned_data['name'],
-                image=form.cleaned_data['image'],
-                price=form.cleaned_data['price'],
-                description=form.cleaned_data['description'],
-                in_stock=form.cleaned_data['in_stock'],
-                category=form.cleaned_data['category']
-            )
-            gun.save()
-            return redirect('home')
+                gun = Gun(
+                    name=form.cleaned_data['name'],
+                    image=form.cleaned_data['image'],
+                    price=form.cleaned_data['price'],
+                    description=form.cleaned_data['description'],
+                    in_stock=form.cleaned_data['in_stock'],
+                    category=form.cleaned_data['category']
+                )
+                gun.save()
+                return redirect('home')
     else:
         form = GunForm()
 
@@ -111,13 +114,14 @@ def edit_gun(request, id):
             gun.save()
             return redirect('home')
     else:
-        form = GunForm(initial={
+        form = GunForm({
             'name': gun.name,
             'price': gun.price,
             'description': gun.description,
             'in_stock': gun.in_stock,
             'category': gun.category,
-        })
+            }
+        )
 
     context = {
         'form': form

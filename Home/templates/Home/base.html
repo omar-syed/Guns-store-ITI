@@ -24,19 +24,9 @@
         </nav>
     </header>
     <br>
-    <div class="navbar-right ml-auto d-flex justify-content-center">
-        <form action="{% url 'search' %}" method="GET">
-            <div class="row">
-                <div class="col-md-6">
-                    <input type="text" name="query" class="form-control form-control-lg" placeholder="Search...">
-                </div>
-                <div class="col-md-6">
-                    <button class="btn btn-primary" type="submit">Search</button>
-                </div>
-            </div>
-        </form>
-    </div>
+    {% block search %}
     
+    {% endblock %}
     {% block content %}
     
     {% endblock %}

@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
+    # 'bootstrap5',
+    # 'crispy_forms',
     'Home',
-    'crispy_forms',
+    
+    
 ]
 
 MIDDLEWARE = [
@@ -53,6 +57,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Guns.urls'
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {

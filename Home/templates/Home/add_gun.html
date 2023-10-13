@@ -1,10 +1,24 @@
+
 {% extends 'home/base.html' %}
+{% load bootstrap4 %}
+{% comment %} {% crispy form template_pack='bootstrap4' %} {% endcomment %}
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
 
 {% block content %}
-    <h2>Add Gun</h2>
+<h2 style="text-align: center">Add Gun</h2>
+<div class="d-flex justify-content-center align-items-center bg-light" style="height: 100vh;">
+    
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn bg-primary text-white mr-3">Add Gun</button>
+        {% comment %} {% crispy form %} {% endcomment %}
+        {% bootstrap_form form %}
+        
+        
+
+        
+        <button type="submit" class="btn btn-primary text-white mr-3">Add Gun</button>
     </form>
+</div>
+
 {% endblock %}
