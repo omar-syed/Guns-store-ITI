@@ -1,8 +1,10 @@
 from django.urls import path,include
-from .views import profile,CreateCustomUser
+from .views import ProfileView, ProfileUpdateView, ProfileDeleteView, CreateCustomUser
 urlpatterns = [
     
     path('',include('django.contrib.auth.urls')),
-    path('profile/',profile,name='profile'),
-    path('register',CreateCustomUser.as_view(), name='accounts.create')
+    path('profile/', ProfileView.as_view(), name='profile'),
+    path('profile/update/', ProfileUpdateView.as_view(), name='profile_update'),
+    path('profile/delete/', ProfileDeleteView.as_view(), name='profile_delete'),
+    path('register/', CreateCustomUser.as_view(), name='register'),
 ]
