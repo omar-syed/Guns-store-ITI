@@ -4,8 +4,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from . models import Gun,Category
 from .forms import GunForm
-# from . forms import GunForm 
-
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
     guns = Gun.objects.all()
@@ -40,7 +40,7 @@ def detail(request, id):
 
 
 
-
+@login_required
 def delete(request, id):
     gun = Gun.objects.filter(id=id)
     if gun:
@@ -52,6 +52,7 @@ def delete(request, id):
             os.remove(image_path)
 
         gun_instance.delete()
+        print(request.user,'I am delete function in views.py')
         return redirect('home')
     else:
         return HttpResponse("Sorry, gun not found")    
@@ -66,7 +67,7 @@ def search(request):
         'query': query
     }
     return render(request, 'Home/search.html', context)    
-
+@login_required
 def add_gun(request):
     if request.method == 'POST':
         form = GunForm(request.POST, request.FILES)
@@ -93,7 +94,7 @@ def add_gun(request):
     }
     return render(request, 'Home/add_gun.html', context)
 
-
+@login_required
 def edit_gun(request, id):
     gun = get_object_or_404(Gun, id=id)
 
