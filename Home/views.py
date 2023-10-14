@@ -82,7 +82,8 @@ def add_gun(request):
                     price=form.cleaned_data['price'],
                     description=form.cleaned_data['description'],
                     in_stock=form.cleaned_data['in_stock'],
-                    category=form.cleaned_data['category']
+                    category=form.cleaned_data['category'],
+                    owner=request.user
                 )
                 gun.save()
                 return redirect('home')
@@ -97,6 +98,10 @@ def add_gun(request):
 @login_required
 def edit_gun(request, id):
     gun = get_object_or_404(Gun, id=id)
+    
+    # Check if the current user is the owner of the gun
+    if gun.owner != request.user:
+        return HttpResponse("You are not authorized to edit this gun.")
 
     if request.method == 'POST':
         form = GunForm(request.POST, request.FILES)

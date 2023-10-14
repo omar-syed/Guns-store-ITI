@@ -23,6 +23,7 @@
         <img src="{{gun.image.url}}" alt="{{ gun.name }} Image">
         <h2>{{ gun.name }}</h2>
         <h5>Category: {{ gun.category }}</h5>
+        <h6>Gun Owner: {{gun.owner}}</h6>
         <p>omar elsayed abdelnasser-computer science 2021-ITI-Python Track MVT</p>
         <a href="{% url 'detail' id=gun.id %}" class="btn">View Details</a>
         <a href="{% url 'edit_gun' id=gun.id %}" class="btn bg-warning">Edit</a>
