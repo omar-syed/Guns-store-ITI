@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'bootstrap4',
     # 'bootstrap5',
     # 'crispy_forms',
-    'Home',
+    'Home.apps.HomeConfig',
+    'accounts.apps.AccountsConfig',
     
     
 ]

@@ -19,6 +19,10 @@
             <a href="{% url 'about' %}">About Us</a>
             <a href="{% url 'add_gun' %}" class="btn bg-warning mr-3">Add Gun</a>
             <a href="{% url 'category_list' %}" class="btn bg-warning mr-3">Show Category</a>
+            {% if user.id %}
+                <a href="#" >{{user}}</a>
+                <a href="{% url 'logout' %}" >Logout</a>
+            {%endif%}    
             
             
         </nav>
