@@ -42,7 +42,11 @@ def detail(request, id):
 
 @login_required
 def delete(request, id):
-    gun = Gun.objects.filter(id=id)
+    gun = get_object_or_404(Gun, id=id)
+    
+    # Check if the current user is the owner of the gun
+    if gun.owner != request.user:
+        return HttpResponse("You are not authorized to edit this gun.")
     if gun:
         gun_instance = gun[0]
         image_path = gun_instance.image.path

@@ -1,24 +1,29 @@
-
 {% extends 'home/base.html' %}
-{% load bootstrap4 %}
+{% comment %} {% load bootstrap4 %} {% endcomment %}
 {% comment %} {% crispy form template_pack='bootstrap4' %} {% endcomment %}
 {% comment %} {% load crispy_forms_tags %} {% endcomment %}
-
+{% load crispy_forms_tags %}
 
 {% block content %}
+<style>
+    /* Increase the size of the form fields */
+    .form-control {
+        height: 50px;
+        font-size: 18px;
+    }
+
+    /* Move the submit button above the footer */
+    .submit-button {
+        margin-top: 20px;
+    }
+</style>
+
 <h2 style="text-align: center">Add Gun</h2>
-<div class="d-flex justify-content-center align-items-center bg-light" style="height: 100vh;">
-    
+<div class="d-flex justify-content-center align-items-center bg-light" style="min-height: 100vh;">
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {% comment %} {% crispy form %} {% endcomment %}
-        {% bootstrap_form form %}
-        
-        
-
-        
-        <button type="submit" class="btn btn-primary text-white mr-3">Add Gun</button>
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary text-white mr-3 submit-button">Add Gun</button>
     </form>
 </div>
-
 {% endblock %}
